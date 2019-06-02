@@ -1,0 +1,11 @@
+/Users/alexroberts/Projects/Minefield/Minefield/obj/Debug/netcoreapp2.1/Minefield.csprojAssemblyReference.cache
+/Users/alexroberts/Projects/Minefield/Minefield/obj/Debug/netcoreapp2.1/Minefield.csproj.CoreCompileInputs.cache
+/Users/alexroberts/Projects/Minefield/Minefield/obj/Debug/netcoreapp2.1/Minefield.AssemblyInfoInputs.cache
+/Users/alexroberts/Projects/Minefield/Minefield/obj/Debug/netcoreapp2.1/Minefield.AssemblyInfo.cs
+/Users/alexroberts/Projects/Minefield/Minefield/bin/Debug/netcoreapp2.1/Minefield.deps.json
+/Users/alexroberts/Projects/Minefield/Minefield/bin/Debug/netcoreapp2.1/Minefield.runtimeconfig.json
+/Users/alexroberts/Projects/Minefield/Minefield/bin/Debug/netcoreapp2.1/Minefield.runtimeconfig.dev.json
+/Users/alexroberts/Projects/Minefield/Minefield/bin/Debug/netcoreapp2.1/Minefield.dll
+/Users/alexroberts/Projects/Minefield/Minefield/bin/Debug/netcoreapp2.1/Minefield.pdb
+/Users/alexroberts/Projects/Minefield/Minefield/obj/Debug/netcoreapp2.1/Minefield.dll
+/Users/alexroberts/Projects/Minefield/Minefield/obj/Debug/netcoreapp2.1/Minefield.pdb
