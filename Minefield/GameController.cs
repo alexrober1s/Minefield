@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 using System.Text;
 using Minefield.Model;
@@ -55,7 +54,6 @@ namespace Minefield
                 message.AppendLine("Mine Hit!");
                 message.AppendLine(string.Format("You have {0} lives left", _gameState.Player.Lives));
             }
-
             // valid move no hit increment score
             else
                 _gameState.Score++;
@@ -101,19 +99,12 @@ namespace Minefield
                 && point.Y <= _gameState.GameBoard.BoardSize.Height;
         }
 
-
         public enum Movement
         {
             Up,
             Down,
             Left,
             Right
-        }
-
-        public class MoveState
-        {
-            public bool HitMine;
-            public bool IsValid;
         }
     }
 }
