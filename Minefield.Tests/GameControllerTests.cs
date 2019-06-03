@@ -1,11 +1,10 @@
 using System.Drawing;
 using System.Linq;
-using Minefield;
 using Minefield.Model;
 using Moq;
 using Xunit;
 
-namespace Tests
+namespace Minefield.Tests
 {
     public class GameControllerTests
     {
@@ -13,12 +12,16 @@ namespace Tests
         public void MoveToWinNoHit()
         {
             var gameController = new GameController();
+            // remove all mines
             foreach(var boardSquare in gameController.GameState.GameBoard.Squares.Where(x => x.HasMine))
                 boardSquare.HasMine = false;
-
-            for (var i = 0; i < gameController.GameState.GameBoard.BoardSize.Height; i++)
+            int i;
+            for (i = 0; i < gameController.GameState.GameBoard.BoardSize.Height; i++)
                 gameController.Move(GameController.Movement.Up);
+
             Assert.True(gameController.GameState.HasWon);
+            Assert.True(gameController.Score == i);
+            Assert.True(gameController.GameState.Moves == i);
         }
 
         [Fact]
@@ -32,7 +35,10 @@ namespace Tests
             gamestate.SetupGet(x => x.Player).Returns(player);
             var gameController = new GameController(gamestate.Object);
             gameController.Move(GameController.Movement.Left);
+
             Assert.True(gameController.PlayerPosition == point);
+            Assert.True(gameController.GameState.Moves == 0);
+            Assert.True(gameController.Score == 0);
         }
 
         [Fact]
@@ -46,7 +52,10 @@ namespace Tests
             gamestate.SetupGet(x => x.Player).Returns(player);
             var gameController = new GameController(gamestate.Object);
             gameController.Move(GameController.Movement.Right);
+
             Assert.True(gameController.PlayerPosition == point);
+            Assert.True(gameController.GameState.Moves == 0);
+            Assert.True(gameController.Score == 0);
         }
 
         [Fact]
@@ -54,7 +63,10 @@ namespace Tests
         {
             var gameController = new GameController();
             gameController.Move(GameController.Movement.Down);
+
             Assert.True(gameController.PlayerPosition.Y == 0);
+            Assert.True(gameController.GameState.Moves == 0);
+            Assert.True(gameController.Score == 0);
         }
 
         [Fact]
@@ -71,9 +83,12 @@ namespace Tests
             var gameController = new GameController(gamestate.Object);
             var originalMineCount = gameController.GameState.GameBoard.Squares.Where(x => x.HasMine).ToList().Count;
             gameController.Move(GameController.Movement.Up);
-            Assert.True(gameController.GameState.Player.Lives == initialLives - 1);
             var mineCount = gameController.GameState.GameBoard.Squares.Where(x => x.HasMine).ToList().Count;
+
+            Assert.True(gameController.GameState.Player.Lives == initialLives - 1);
             Assert.True(mineCount < originalMineCount);
+            Assert.True(gameController.GameState.Moves == 1);
+            Assert.True(gameController.Score == -1);
         }
 
         [Fact]
@@ -95,6 +110,8 @@ namespace Tests
 
             Assert.True(gameController.GameState.Player.Lives == 0);
             Assert.True(mineCount < originalMineCount);
+            Assert.True(gameController.GameState.Moves == 1);
+            Assert.True(gameController.Score == -1);
             Assert.True(gameController.GameOver);
         }
     }

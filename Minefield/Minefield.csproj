@@ -8,5 +8,11 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Model\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Castle.Windsor" Version="5.0.0" />
   </ItemGroup>
 </Project>

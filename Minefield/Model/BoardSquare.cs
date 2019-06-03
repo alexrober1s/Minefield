@@ -3,7 +3,7 @@ using Minefield.Extensions;
 
 namespace Minefield.Model
 {
-    public struct BoardSquare
+    public class BoardSquare
     {
         public Point Position;
         public bool HasMine;

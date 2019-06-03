@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minefield", "Minefield\Minefield.csproj", "{0392D2DA-0C61-4822-B9CC-3E97E4D5F1A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{A643DF37-BE58-4F69-AE9A-1D6E805A9414}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minefield.Tests", "Minefield.Tests\Minefield.Tests.csproj", "{A643DF37-BE58-4F69-AE9A-1D6E805A9414}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,25 +1,42 @@
 ﻿using System;
+using Minefield.Interfaces;
 using Minefield.Model;
 
 namespace Minefield.Classes
 {   
     public class Game
     {
+        //TODO: put strings into a resx so we can auto test output
         const string EXIT = "exit";
         const string UP = "u";
         const string DOWN = "d";
         const string LEFT = "l";
         const string RIGHT = "r";
-        const string HELP = "To move position type: \r\nu (up)\r\nd (down)\r\nl (left)\r\nr (right).";
+        const string HELP = "To move position type: \r\nu (up)\r\nd (down)\r\nl (left)\r\nr (right).\r\nType 'exit' to end game.";
 
         readonly GameController _gameController;
-
+        readonly IConsoleService _consoleService;
         static Game _instance;
-        public static Game Instance => _instance = _instance ?? new Game();
-    
-        Game()
+        public static Game Instance
         {
-            _gameController = new GameController();
+            get
+            {
+                if(_instance == null)
+                    throw new Exception(string.Format("You must call the static method {0} before getting {1}", nameof(Init), nameof(Instance)));
+
+                return _instance;
+            }
+        }
+
+        public static Game Init(IConsoleService consoleService, GameController gameController)
+        {
+            return _instance = new Game(consoleService, gameController);
+        }
+
+        Game(IConsoleService consoleService, GameController gameController)
+        {
+            _consoleService = consoleService;
+            _gameController = gameController;
             PrintWelcomeMessage();
         }
 
@@ -28,7 +45,7 @@ namespace Minefield.Classes
             PrintHelp();
             PrintPlayerPosition();
             string line;
-            while((line = Console.ReadLine()) != null)
+            while((line = _consoleService.ReadLine()) != null)
             {
                 switch(line.ToLower())
                 {
@@ -66,7 +83,7 @@ namespace Minefield.Classes
         {
             Console.WriteLine(string.Format("Score:{0}", _gameController.Score));
             Console.WriteLine("Goodbye");
-            Environment.Exit(1);
+            return;
         }
 
         void PrintWelcomeMessage()

@@ -26,6 +26,15 @@ namespace Minefield.Model
             Squares.Remove(Squares.First(square => square.Position.Equals(point)));
         }
 
+        public void AddMine(Point point)
+        {
+            if (Squares == null)
+                return;
+            var boardSquare = Squares.FirstOrDefault(x => x.Position == point);
+            if (boardSquare != null)
+                boardSquare.HasMine = true;
+        }
+
         void Setup()
         {
             var squareCount = BoardSize.Height * BoardSize.Width;
@@ -47,8 +56,10 @@ namespace Minefield.Model
                         Position = boardPosition
                     };
                     Squares.Add(boardSquare);
+#if DEBUG
                     if (boardSquare.HasMine)
                         Console.WriteLine(string.Format("Mine at position : {0}", BoardSquare.ToDisplayPosition(boardPosition)));
+#endif
                 }
             }
         }

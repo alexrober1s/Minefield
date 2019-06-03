@@ -5,18 +5,22 @@ using Minefield.Model;
 
 namespace Minefield
 {
+    //TODO: put strings into a resx so we can auto test output
     public class GameController
     {
-        readonly GameState _gameState;
 
-        public GameController()
+        public GameController() : this(new GameState().InitDefault()) {}
+
+        // Added the gamestate arg as in future could be able to load a saved game
+        public GameController(GameState gameState)
         {
-            _gameState = new GameState();
+            GameState = gameState;
         }
 
-        public bool GameOver => _gameState.GameOver;
-        public int Score => _gameState.Score;
-        public Point PlayerPosition => _gameState.Player.Position;
+        public GameState GameState { get; set; } 
+        public bool GameOver => GameState.GameOver;
+        public int Score => GameState.Score;
+        public Point PlayerPosition => GameState.Player.Position;
 
         public string Move(Movement movement)
         {
@@ -28,15 +32,15 @@ namespace Minefield
             if (IsValidMove(point))
             {
                 valid = true;
-                _gameState.Moves++;
-                _gameState.Player.Position = point;
+                GameState.Moves++;
+                GameState.Player.Position = point;
             }
 
-            if (_gameState.GameBoard.Squares.Any(square => square.Position.Equals(point) && square.HasMine))
+            if (GameState.GameBoard.Squares.Any(square => square.Position.Equals(point) && square.HasMine))
             {
                 hit = true;
-                _gameState.Player.RemoveLife();
-                _gameState.GameBoard.RemoveMine(point);
+                GameState.Player.RemoveLife();
+                GameState.GameBoard.RemoveMine(point);
             }
 
             if (!valid)
@@ -45,21 +49,23 @@ namespace Minefield
                 return message.ToString();
             }
 
-            message.AppendLine(string.Format("Moved to: {0}", BoardSquare.ToDisplayPosition(_gameState.Player.Position)));
+            message.AppendLine(string.Format("Moved to: {0}", BoardSquare.ToDisplayPosition(GameState.Player.Position)));
 
             // valid move but hit 
             if (hit)
             {
-                _gameState.Score--;
+                GameState.Score--;
                 message.AppendLine("Mine Hit!");
-                message.AppendLine(string.Format("You have {0} lives left", _gameState.Player.Lives));
             }
             // valid move no hit increment score
             else
-                _gameState.Score++;
+                GameState.Score++;
+
+            message.AppendLine(string.Format("Lives: {0}", GameState.Player.Lives));
+            message.AppendLine(string.Format("Moves: {0}", GameState.Moves));
 
             // check if player has reached the top of the board
-            if (_gameState.HasWon)
+            if (GameState.HasWon)
             {
                 message.AppendLine();
                 message.AppendLine("You Win!");
@@ -70,21 +76,21 @@ namespace Minefield
 
         Point CalculateNewPosition(Movement movement)
         {
-            var x = _gameState.Player.Position.X;
-            var y = _gameState.Player.Position.Y;
+            var x = GameState.Player.Position.X;
+            var y = GameState.Player.Position.Y;
             switch (movement)
             {
                 case Movement.Up:
-                    y = _gameState.Player.Position.Y + 1;
+                    y = GameState.Player.Position.Y + 1;
                     break;
                 case Movement.Down:
-                    y = _gameState.Player.Position.Y - 1;
+                    y = GameState.Player.Position.Y - 1;
                     break;
                 case Movement.Left:
-                    x = _gameState.Player.Position.X - 1;
+                    x = GameState.Player.Position.X - 1;
                     break;
                 case Movement.Right:
-                    x = _gameState.Player.Position.X + 1;
+                    x = GameState.Player.Position.X + 1;
                     break;
             }
 
@@ -94,9 +100,9 @@ namespace Minefield
         bool IsValidMove(Point point)
         {
             return point.X > -1
-                && point.X < _gameState.GameBoard.BoardSize.Width
+                && point.X < GameState.GameBoard.BoardSize.Width
                 && point.Y > -1
-                && point.Y <= _gameState.GameBoard.BoardSize.Height;
+                && point.Y <= GameState.GameBoard.BoardSize.Height;
         }
 
         public enum Movement
